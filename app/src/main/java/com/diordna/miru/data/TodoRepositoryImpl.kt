@@ -1,4 +1,6 @@
 package com.diordna.miru.data
 
-class TodoRepositoryImpl : TodoRepository {
+import com.diordna.miru.data.db.TodoDatabase
+
+class TodoRepositoryImpl(override val todoDatabase: TodoDatabase) : TodoRepository {
 }

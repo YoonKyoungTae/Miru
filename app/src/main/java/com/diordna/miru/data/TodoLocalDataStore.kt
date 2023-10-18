@@ -1,4 +1,11 @@
 package com.diordna.miru.data
 
-class TodoLocalDataStore : TodoRepository {
+import androidx.room.Room
+import com.diordna.miru.data.db.TodoDatabase
+
+class TodoLocalDataStore(override val todoDatabase: TodoDatabase) : TodoRepository {
+
+
+
+
 }

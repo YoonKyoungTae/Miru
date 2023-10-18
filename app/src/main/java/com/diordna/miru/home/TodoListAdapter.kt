@@ -5,21 +5,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.diordna.miru.data.Todo
+import com.diordna.miru.data.TodoUiData
 import com.diordna.miru.databinding.ItemTodoBinding
 
-class TodoListAdapter : ListAdapter<Todo, TodoListAdapter.ViewHolder>(diffUtil) {
+class TodoListAdapter : ListAdapter<TodoUiData, TodoListAdapter.ViewHolder>(diffUtil) {
 
     companion object {
-        val diffUtil = object : DiffUtil.ItemCallback<Todo>() {
-            override fun areItemsTheSame(oldItem: Todo, newItem: Todo): Boolean {
-                TODO("Not yet implemented")
+        val diffUtil = object : DiffUtil.ItemCallback<TodoUiData>() {
+            override fun areItemsTheSame(oldItem: TodoUiData, newItem: TodoUiData): Boolean {
+                return oldItem == newItem
             }
 
-            override fun areContentsTheSame(oldItem: Todo, newItem: Todo): Boolean {
-                TODO("Not yet implemented")
+            override fun areContentsTheSame(oldItem: TodoUiData, newItem: TodoUiData): Boolean {
+                return oldItem.id == newItem.id
             }
-
         }
     }
 
@@ -36,7 +35,7 @@ class TodoListAdapter : ListAdapter<Todo, TodoListAdapter.ViewHolder>(diffUtil) 
         private val binding: ItemTodoBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun binding(todo: Todo) {
+        fun binding(todo: TodoUiData) {
             binding.todoTitle.text = todo.title
         }
 

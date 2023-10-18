@@ -1,6 +1,7 @@
 package com.diordna.miru.data
 
-data class Todo(
+data class TodoUiData(
+    val id: Long,
     val title: String,
     private val isDone: Boolean,
     private val isMiru: Boolean,
