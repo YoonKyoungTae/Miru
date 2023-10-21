@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.diordna.miru.data.TodoUiData
 import com.diordna.miru.databinding.ItemTodoBinding
+import org.joda.time.DateTime
 
 class TodoListAdapter : ListAdapter<TodoUiData, TodoListAdapter.ViewHolder>(diffUtil) {
 
@@ -37,6 +38,7 @@ class TodoListAdapter : ListAdapter<TodoUiData, TodoListAdapter.ViewHolder>(diff
 
         fun binding(todo: TodoUiData) {
             binding.todoTitle.text = todo.title
+            binding.todoCreateAt.text = DateTime(todo.createAtMillis).toString("yyyy-MM-dd")
         }
 
     }

@@ -4,12 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.diordna.miru.data.TodoUiData
 import com.diordna.miru.data.TodoRepository
+import com.diordna.miru.data.TodoUiData
+import com.diordna.miru.data.db.TodoEntity
 import com.diordna.miru.data.db.toUiData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.joda.time.DateTime
+import java.util.*
 
 class HomeViewModel : ViewModel() {
 
@@ -29,5 +32,32 @@ class HomeViewModel : ViewModel() {
                 }
             }
         }
+    }
+
+    fun addNewTodo() {
+        viewModelScope.launch(Dispatchers.IO) {
+            todoRepository?.let {
+                val newTodoItem = TodoEntity(
+                    createAtMillis = DateTime.now().millis,
+                    updateAtMillis = DateTime.now().millis
+                )
+                it.todoDatabase.todoDao().insert(newTodoItem)
+
+                _todoList.value?.toMutableList()?.run {
+                    add(newTodoItem.toUiData())
+                    withContext(Dispatchers.Main) {
+                        _todoList.value = this@run
+                    }
+                }
+            }
+        }
+    }
+
+    fun editTodo() {
+
+    }
+
+    fun removeTodo() {
+
     }
 }

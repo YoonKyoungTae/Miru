@@ -25,7 +25,7 @@ class HomeFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        initTodoListView()
+        initTodoView()
         initViewModel()
         loadData()
     }
@@ -48,10 +48,14 @@ class HomeFragment : Fragment() {
         return list
     }
 
-    private fun initTodoListView() {
+    private fun initTodoView() {
         binding?.todoListView?.adapter = todoAdapter
         binding?.todoListView?.layoutManager = LinearLayoutManager(activity)
         todoAdapter.submitList(createGetMockupData())
+
+        binding?.addTodoButton?.setOnClickListener {
+            homeViewModel.addNewTodo()
+        }
     }
 
     private fun initViewModel() {
