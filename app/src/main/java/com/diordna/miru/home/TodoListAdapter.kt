@@ -23,9 +23,11 @@ class TodoListAdapter : ListAdapter<TodoUiData, TodoListAdapter.ViewHolder>(diff
         }
     }
 
+    var onClickDeleteAction: ((id: Long) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemTodoBinding.inflate(LayoutInflater.from(parent.context))
-        return ViewHolder(binding)
+        return ViewHolder(binding, onClickDeleteAction)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -33,12 +35,16 @@ class TodoListAdapter : ListAdapter<TodoUiData, TodoListAdapter.ViewHolder>(diff
     }
 
     class ViewHolder(
-        private val binding: ItemTodoBinding
+        private val binding: ItemTodoBinding,
+        private val onClickDeleteAction: ((id: Long) -> Unit)?
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun binding(todo: TodoUiData) {
-            binding.todoTitle.text = todo.title
+            binding.todoTitle.text = "Sample : ${todo.id}"
             binding.todoCreateAt.text = DateTime(todo.createAtMillis).toString("yyyy-MM-dd")
+            binding.todoDeleteIcon.setOnClickListener {
+                onClickDeleteAction?.invoke(todo.id)
+            }
         }
 
     }

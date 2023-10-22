@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/material_dynamic_primary10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.checkbox.MaterialCheckBox
         android:id="@+id/todoCheckBox"
         android:layout_width="wrap_content"
@@ -12,15 +19,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/todoTitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:hint="Insert your Todo"
+        android:text="Test Text"
         android:textColor="@color/black"
         android:textSize="22dp"
         app:layout_constraintBottom_toBottomOf="@+id/todoCheckBox"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/todoDeleteIcon"
         app:layout_constraintStart_toEndOf="@+id/todoCheckBox"
         app:layout_constraintTop_toTopOf="@+id/todoCheckBox"
         tools:text="Sample" />
@@ -34,5 +41,15 @@
         app:layout_constraintStart_toStartOf="@+id/todoTitle"
         app:layout_constraintTop_toBottomOf="@+id/todoTitle"
         tools:text="2010-10-10" />
+
+    <ImageView
+        android:id="@+id/todoDeleteIcon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:padding="8dp"
+        android:src="@drawable/img_delete"
+        app:layout_constraintBottom_toBottomOf="@+id/todoCheckBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/todoCheckBox" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

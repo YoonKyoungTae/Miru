@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.joda.time.DateTime
-import java.util.*
 
 class HomeViewModel : ViewModel() {
 
@@ -57,7 +56,23 @@ class HomeViewModel : ViewModel() {
 
     }
 
-    fun removeTodo() {
+    fun removeTodo(id: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            todoRepository?.let {
+                it.todoDatabase.todoDao().deleteForId(id)
 
+                val originList = _todoList.value?.toMutableList()
+                val filterList = originList?.filter { allList ->
+                    allList.id == id
+                }
+
+                if (filterList?.isNotEmpty() == true) {
+                    originList.remove(filterList[0])
+                    withContext(Dispatchers.Main) {
+                        _todoList.value = originList!!
+                    }
+                }
+            }
+        }
     }
 }

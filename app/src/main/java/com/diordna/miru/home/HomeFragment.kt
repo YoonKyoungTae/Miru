@@ -49,6 +49,10 @@ class HomeFragment : Fragment() {
     }
 
     private fun initTodoView() {
+        todoAdapter.onClickDeleteAction = {
+            homeViewModel.removeTodo(it)
+        }
+
         binding?.todoListView?.adapter = todoAdapter
         binding?.todoListView?.layoutManager = LinearLayoutManager(activity)
         todoAdapter.submitList(createGetMockupData())
