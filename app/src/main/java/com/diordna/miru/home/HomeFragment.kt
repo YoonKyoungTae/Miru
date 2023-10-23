@@ -30,35 +30,18 @@ class HomeFragment : Fragment() {
         loadData()
     }
 
-    private fun createGetMockupData(): ArrayList<TodoUiData> {
-        val list = arrayListOf<TodoUiData>()
-        repeat(10) {
-            list.add(
-                TodoUiData(
-                    id = it.toLong(),
-                    title = "Title $it",
-                    isDone = false,
-                    isMiru = false,
-                    createAtMillis = 0,
-                    updateAtMillis = 0
-                )
-            )
-        }
-
-        return list
-    }
-
     private fun initTodoView() {
-        todoAdapter.onClickDeleteAction = {
-            homeViewModel.removeTodo(it)
-        }
-
         binding?.todoListView?.adapter = todoAdapter
         binding?.todoListView?.layoutManager = LinearLayoutManager(activity)
-        todoAdapter.submitList(createGetMockupData())
 
+        // Add
         binding?.addTodoButton?.setOnClickListener {
             homeViewModel.addNewTodo()
+        }
+
+        // Delete
+        todoAdapter.onClickDeleteAction = {
+            homeViewModel.removeTodo(it)
         }
     }
 
