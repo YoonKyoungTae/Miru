@@ -7,12 +7,12 @@ import com.diordna.miru.data.TodoUiData
 
 @Entity(tableName = "todo")
 data class TodoEntity(
-    @PrimaryKey(autoGenerate = true) val id: Long = 0,
-    @ColumnInfo val title: String? = "",
-    @ColumnInfo val isDone: Boolean? = false,
-    @ColumnInfo val isMiru: Boolean? = false,
+    @PrimaryKey(autoGenerate = true) var id: Long = 0,
+    @ColumnInfo var title: String? = "",
+    @ColumnInfo var isDone: Boolean? = false,
+    @ColumnInfo var isMiru: Boolean? = false,
     @ColumnInfo val createAtMillis: Long? = 0,
-    @ColumnInfo val updateAtMillis: Long? = 0
+    @ColumnInfo var updateAtMillis: Long? = 0
 )
 
 fun TodoEntity.toUiData() = TodoUiData(

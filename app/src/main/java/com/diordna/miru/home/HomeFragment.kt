@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
-import com.diordna.miru.data.TodoUiData
 import com.diordna.miru.data.TodoRepositoryImpl
 import com.diordna.miru.data.db.TodoDatabase
 import com.diordna.miru.databinding.FragmentHomeBinding
@@ -42,6 +41,11 @@ class HomeFragment : Fragment() {
         // Delete
         todoAdapter.onClickDeleteAction = {
             homeViewModel.removeTodo(it)
+        }
+
+        // Edit
+        todoAdapter.onClickIsDoneAction = { id, isChecked ->
+            homeViewModel.editTodo(id, isChecked)
         }
     }
 

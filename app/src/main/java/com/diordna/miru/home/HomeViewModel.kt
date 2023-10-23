@@ -37,10 +37,11 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             todoRepository?.let {
                 val newTodoItem = TodoEntity(
-                    createAtMillis = DateTime.now().millis,
-                    updateAtMillis = DateTime.now().millis
+                    createAtMillis = DateTime().millis,
+                    updateAtMillis = DateTime().millis
                 )
-                it.todoDatabase.todoDao().insert(newTodoItem)
+                val newTodoItemId = it.todoDatabase.todoDao().insert(newTodoItem)
+                newTodoItem.id = newTodoItemId
 
                 _todoList.value?.toMutableList()?.run {
                     add(newTodoItem.toUiData())
@@ -52,8 +53,15 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun editTodo() {
-
+    fun editTodo(id: Long, isChecked: Boolean) {
+        viewModelScope.launch(Dispatchers.IO) {
+            todoRepository?.let {
+                val todoEntity = it.todoDatabase.todoDao().selectForId(id)
+                todoEntity.isDone = isChecked
+                todoEntity.updateAtMillis = DateTime().millis
+                it.todoDatabase.todoDao().update(todoEntity)
+            }
+        }
     }
 
     fun removeTodo(id: Long) {
