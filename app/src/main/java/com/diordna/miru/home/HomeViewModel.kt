@@ -27,6 +27,8 @@ class HomeViewModel : ViewModel() {
                 withContext(Dispatchers.Main) {
                     _todoList.value = todoDataList.map { todoEntity ->
                         todoEntity.toUiData()
+                    }.sortedBy { todoUiData ->
+                        todoUiData.isDone
                     }
                 }
             }
@@ -46,7 +48,9 @@ class HomeViewModel : ViewModel() {
                 _todoList.value?.toMutableList()?.run {
                     add(newTodoItem.toUiData())
                     withContext(Dispatchers.Main) {
-                        _todoList.value = this@run
+                        _todoList.value = this@run.sortedBy { todoUiData ->
+                            todoUiData.isDone
+                        }
                     }
                 }
             }
@@ -60,6 +64,21 @@ class HomeViewModel : ViewModel() {
                 todoEntity.isDone = isChecked
                 todoEntity.updateAtMillis = DateTime().millis
                 it.todoDatabase.todoDao().update(todoEntity)
+
+                val originList = _todoList.value?.toMutableList()
+                val findItem = originList?.find { allList ->
+                    allList.id == id
+                }
+
+                findItem?.run {
+                    val originItemIndex = originList.indexOf(findItem)
+                    originList[originItemIndex] = todoEntity.toUiData()
+                    withContext(Dispatchers.Main) {
+                        _todoList.value = originList.sortedBy { todoUiData ->
+                            todoUiData.isDone
+                        }
+                    }
+                }
             }
         }
     }
@@ -70,12 +89,12 @@ class HomeViewModel : ViewModel() {
                 it.todoDatabase.todoDao().deleteForId(id)
 
                 val originList = _todoList.value?.toMutableList()
-                val filterList = originList?.filter { allList ->
+                val findItem = originList?.find { allList ->
                     allList.id == id
                 }
 
-                if (filterList?.isNotEmpty() == true) {
-                    originList.remove(filterList[0])
+                findItem?.run {
+                    originList.remove(this)
                     withContext(Dispatchers.Main) {
                         _todoList.value = originList!!
                     }
