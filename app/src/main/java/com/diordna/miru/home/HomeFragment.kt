@@ -7,15 +7,19 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.room.Room
+import com.diordna.miru.data.CalenderUiData
 import com.diordna.miru.data.TodoRepositoryImpl
 import com.diordna.miru.data.db.TodoDatabase
 import com.diordna.miru.databinding.FragmentHomeBinding
+import org.joda.time.DateTime
 
 class HomeFragment : Fragment() {
 
     private var binding: FragmentHomeBinding? = null
     private val todoAdapter = TodoListAdapter()
+    private val calenderAdapter = CalenderListAdapter()
     private val homeViewModel: HomeViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -25,8 +29,25 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         initTodoView()
+        initCalenderView()
+
         initViewModel()
         loadData()
+    }
+
+    private fun initCalenderView() {
+
+        val mockData = arrayListOf<CalenderUiData>()
+        repeat(30) {
+            mockData.add(CalenderUiData(DateTime()))
+        }
+
+        binding?.calenderListView?.adapter = calenderAdapter
+        binding?.calenderListView?.layoutManager = LinearLayoutManager(activity).apply {
+            orientation = LinearLayoutManager.HORIZONTAL
+        }
+
+        calenderAdapter.submitList(mockData)
     }
 
     private fun initTodoView() {
