@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import com.diordna.miru.CalendarCalculator
 import com.diordna.miru.data.Const
 import com.diordna.miru.databinding.FragmentCalenerDateBinding
 import org.joda.time.DateTime
@@ -37,7 +38,6 @@ class CalenderDateFragment : Fragment() {
 
     private fun setDate() {
         val plusWeeks = arguments?.getInt(ARG_FRAGMENT_POSITION, 0) ?: 0
-        val weeksDateTime = DateTime(Const.CALENDER_START_DATE).plusWeeks(plusWeeks)
         val dateTextViewArr = listOf(
             binding?.dateTextView0,
             binding?.dateTextView1,
@@ -50,7 +50,7 @@ class CalenderDateFragment : Fragment() {
 
         binding?.run {
             dateTextViewArr.forEachIndexed { index, textView ->
-                textView?.text = weeksDateTime.plusDays(index).dayOfMonth.toString()
+                textView?.text = CalendarCalculator.getDayText(plusWeeks, index)
             }
         }
     }

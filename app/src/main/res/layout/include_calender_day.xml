@@ -1,10 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="8dp"
     android:paddingEnd="8dp">
+
+    <TextView
+        android:id="@+id/monthTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="8월"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/dayTextView0"
@@ -14,10 +24,9 @@
         android:gravity="center"
         android:text="일"
         android:textColor="@color/calender_text_sun"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dayTextView1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/monthTextView" />
 
     <TextView
         android:id="@+id/dayTextView1"
@@ -26,10 +35,9 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="월"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/dayTextView2"
+        app:layout_constraintStart_toEndOf="@+id/dayTextView0"
+        app:layout_constraintTop_toTopOf="@+id/dayTextView0" />
 
     <TextView
         android:id="@+id/dayTextView2"
@@ -38,10 +46,9 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="화"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/dayTextView3"
+        app:layout_constraintStart_toEndOf="@+id/dayTextView1"
+        app:layout_constraintTop_toTopOf="@+id/dayTextView0" />
 
     <TextView
         android:id="@+id/dayTextView3"
@@ -50,10 +57,9 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="수"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/dayTextView4"
+        app:layout_constraintStart_toEndOf="@+id/dayTextView2"
+        app:layout_constraintTop_toTopOf="@+id/dayTextView0" />
 
     <TextView
         android:id="@+id/dayTextView4"
@@ -62,10 +68,9 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="목"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/dayTextView5"
+        app:layout_constraintStart_toEndOf="@+id/dayTextView3"
+        app:layout_constraintTop_toTopOf="@+id/dayTextView0" />
 
     <TextView
         android:id="@+id/dayTextView5"
@@ -74,10 +79,9 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="금"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/dayTextView6"
+        app:layout_constraintStart_toEndOf="@+id/dayTextView4"
+        app:layout_constraintTop_toTopOf="@+id/dayTextView0" />
 
     <TextView
         android:id="@+id/dayTextView6"
@@ -86,10 +90,8 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="토"
-        android:textColor="@color/calender_text_sat"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/dayTextView5"
+        app:layout_constraintTop_toTopOf="@+id/dayTextView0" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

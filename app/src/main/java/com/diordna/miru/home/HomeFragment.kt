@@ -8,12 +8,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
-import com.diordna.miru.data.CalenderUiData
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
+import com.diordna.miru.CalendarCalculator
 import com.diordna.miru.data.TodoRepositoryImpl
 import com.diordna.miru.data.db.TodoDatabase
 import com.diordna.miru.databinding.FragmentHomeBinding
 import com.diordna.miru.home.calender.CalenderPagerAdapter
-import org.joda.time.DateTime
 
 class HomeFragment : Fragment() {
 
@@ -35,14 +35,14 @@ class HomeFragment : Fragment() {
     }
 
     private fun initCalenderView() {
-
-        val mockData = arrayListOf<CalenderUiData>()
-        repeat(30) {
-            mockData.add(CalenderUiData(DateTime()))
-        }
-
         val calenderAdapter = CalenderPagerAdapter(this)
         binding?.calenderPagerView?.adapter = calenderAdapter
+        binding?.calenderPagerView?.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                binding?.dayTextLayout?.monthTextView?.text = CalendarCalculator.getMonthText(position)
+            }
+        })
     }
 
     private fun initTodoView() {
