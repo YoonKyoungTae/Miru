@@ -19,10 +19,10 @@ class HomeViewModel : ViewModel() {
     private val _todoList = MutableLiveData<List<TodoUiData>>()
     val todoList: LiveData<List<TodoUiData>> = _todoList
 
-    fun loadTodoList() {
+    fun loadTodoList(dateTime: DateTime = DateTime.now()) {
         viewModelScope.launch(Dispatchers.IO) {
             todoRepository?.let {
-                val todoDataList = it.todoDatabase.todoDao().selectAll()
+                val todoDataList = it.todoDatabase.todoDao().selectForDate(dateTime.toString("YYYYmmdd"))
 
                 withContext(Dispatchers.Main) {
                     _todoList.value = todoDataList.map { todoEntity ->
@@ -39,8 +39,9 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             todoRepository?.let {
                 val newTodoItem = TodoEntity(
-                    createAtMillis = DateTime().millis,
-                    updateAtMillis = DateTime().millis
+                    viewingDate = DateTime.now().toString("YYYYmmdd"),
+                    createAtMillis = DateTime.now().millis,
+                    updateAtMillis = DateTime.now().millis
                 )
                 val newTodoItemId = it.todoDatabase.todoDao().insert(newTodoItem)
                 newTodoItem.id = newTodoItemId

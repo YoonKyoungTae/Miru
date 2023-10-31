@@ -41,6 +41,7 @@ class HomeFragment : Fragment() {
         val calenderAdapter = CalenderPagerAdapter(this, object : CalenderDateFragment.OnClickDayItem {
             override fun onClick(date: DateTime) {
                 Toast.makeText(activity, "${date.toString("yyyy-MM-dd")}", Toast.LENGTH_SHORT).show()
+                homeViewModel.loadTodoList(date)
             }
         })
 

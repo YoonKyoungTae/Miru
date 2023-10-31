@@ -8,10 +8,16 @@ interface TodoDAO {
     @Query("SELECT * FROM todo")
     fun selectAll(): List<TodoEntity>
 
-    @Query("SELECT * FROM todo WHERE id = :id")
+    @Query("SELECT * FROM todo " +
+            "WHERE viewingDate >= :viewingDate")
+    fun selectForDate(viewingDate: String): List<TodoEntity>
+
+    @Query("SELECT * FROM todo " +
+            "WHERE id = :id")
     fun selectForId(id: Long): TodoEntity
 
-    @Query("DELETE FROM todo WHERE id = :id")
+    @Query("DELETE FROM todo " +
+            "WHERE id = :id")
     fun deleteForId(id: Long)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

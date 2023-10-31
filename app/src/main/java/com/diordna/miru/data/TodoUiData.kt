@@ -5,7 +5,7 @@ data class TodoUiData(
     val title: String,
     val isDone: Boolean,
     val isMiru: Boolean,
+    val viewingDate: String,
     val createAtMillis: Long,
-    val viewingAtMillis: Long,
     val updateAtMillis: Long
 )
