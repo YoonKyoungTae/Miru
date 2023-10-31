@@ -12,6 +12,7 @@ data class TodoEntity(
     @ColumnInfo var isDone: Boolean? = false,
     @ColumnInfo var isMiru: Boolean? = false,
     @ColumnInfo val createAtMillis: Long? = 0,
+    @ColumnInfo val viewingAtMillis: Long? = 0,
     @ColumnInfo var updateAtMillis: Long? = 0
 )
 
@@ -21,5 +22,6 @@ fun TodoEntity.toUiData() = TodoUiData(
     isDone = this.isDone ?: false,
     isMiru = this.isMiru ?: false,
     createAtMillis = this.createAtMillis ?: 0,
+    viewingAtMillis = this.viewingAtMillis ?: 0,
     updateAtMillis = this.updateAtMillis ?: 0,
 )

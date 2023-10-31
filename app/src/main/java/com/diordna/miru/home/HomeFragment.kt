@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +14,9 @@ import com.diordna.miru.CalendarCalculator
 import com.diordna.miru.data.TodoRepositoryImpl
 import com.diordna.miru.data.db.TodoDatabase
 import com.diordna.miru.databinding.FragmentHomeBinding
+import com.diordna.miru.home.calender.CalenderDateFragment
 import com.diordna.miru.home.calender.CalenderPagerAdapter
+import org.joda.time.DateTime
 
 class HomeFragment : Fragment() {
 
@@ -35,11 +38,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun initCalenderView() {
-        val calenderAdapter = CalenderPagerAdapter(this)
+        val calenderAdapter = CalenderPagerAdapter(this, object : CalenderDateFragment.OnClickDayItem {
+            override fun onClick(date: DateTime) {
+                Toast.makeText(activity, "${date.toString("yyyy-MM-dd")}", Toast.LENGTH_SHORT).show()
+            }
+        })
+
         binding?.calenderPagerView?.adapter = calenderAdapter
         binding?.calenderPagerView?.registerOnPageChangeCallback(object : OnPageChangeCallback() {
             override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
                 binding?.dayTextLayout?.monthTextView?.text = CalendarCalculator.getMonthText(position)
             }
         })

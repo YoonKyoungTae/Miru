@@ -14,12 +14,13 @@ import org.joda.time.DateTime
 class CalenderDateFragment : Fragment() {
 
     private var binding: FragmentCalenerDateBinding? = null
+    var onClickDayItem: OnClickDayItem? = null
 
     companion object {
 
         private const val ARG_FRAGMENT_POSITION = "ARG_FRAGMENT_POSITION"
 
-        fun getInstance(position: Int): Fragment {
+        fun getInstance(position: Int): CalenderDateFragment {
             return CalenderDateFragment().apply {
                 arguments = bundleOf(ARG_FRAGMENT_POSITION to position)
             }
@@ -51,7 +52,14 @@ class CalenderDateFragment : Fragment() {
         binding?.run {
             dateTextViewArr.forEachIndexed { index, textView ->
                 textView?.text = CalendarCalculator.getDayText(plusWeeks, index)
+                textView?.setOnClickListener {
+                    onClickDayItem?.onClick(CalendarCalculator.getDateTime(plusWeeks, index))
+                }
             }
         }
+    }
+
+    interface OnClickDayItem {
+        fun onClick(date: DateTime)
     }
 }
