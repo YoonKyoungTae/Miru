@@ -1,6 +1,9 @@
 package com.diordna.miru
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import org.joda.time.DateTime
+import org.joda.time.Days
 
 object CalendarCalculator {
 
@@ -25,6 +28,15 @@ object CalendarCalculator {
         return DateTime(CALENDER_START_DATE)
             .plusWeeks(plusWeeks)
             .monthOfYear.toString() + "월"
+    }
+
+    fun getMonthText(dateTime: DateTime): String {
+        return dateTime.monthOfYear.toString() + "월"
+    }
+
+    fun getTodayWeeks() : Int {
+        val betweenDays = Days.daysBetween(DateTime(CALENDER_START_DATE), DateTime.now()).days
+        return betweenDays / 7
     }
 
 }

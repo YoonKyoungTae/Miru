@@ -38,12 +38,15 @@ class HomeFragment : Fragment() {
     }
 
     private fun initCalenderView() {
-        val calenderAdapter = CalenderPagerAdapter(this, object : CalenderDateFragment.OnClickDayItem {
+        val calenderDayClickListener = object : CalenderDateFragment.OnClickDayItem {
             override fun onClick(date: DateTime) {
                 Toast.makeText(activity, "${date.toString("yyyy-MM-dd")}", Toast.LENGTH_SHORT).show()
+                binding?.dayTextLayout?.monthTextView?.text = CalendarCalculator.getMonthText(date)
                 homeViewModel.loadTodoList(date)
             }
-        })
+        }
+
+        val calenderAdapter = CalenderPagerAdapter(this, calenderDayClickListener)
 
         binding?.calenderPagerView?.adapter = calenderAdapter
         binding?.calenderPagerView?.registerOnPageChangeCallback(object : OnPageChangeCallback() {
