@@ -50,9 +50,10 @@ class CalenderDateFragment : Fragment() {
         )
 
         binding?.run {
-            dateTextViewArr.forEachIndexed { index, textView ->
-                textView?.text = CalendarCalculator.getDayText(plusWeeks, index)
-                textView?.setOnClickListener {
+            dateTextViewArr.forEachIndexed { index, dayTextView ->
+                dayTextView?.setDate(CalendarCalculator.getDateTime(plusWeeks, index))
+                dayTextView?.setText(CalendarCalculator.getDayText(plusWeeks, index))
+                dayTextView?.setOnClickListener {
                     onClickDayItem?.onClick(CalendarCalculator.getDateTime(plusWeeks, index))
                 }
             }

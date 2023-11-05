@@ -1,109 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:paddingStart="8dp"
     android:paddingEnd="8dp">
 
-    <TextView
+    <com.diordna.miru.custom.DaySelectView
         android:id="@+id/dateTextView0"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="10"
-        android:textColor="@color/calender_text_sun"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dateTextView1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.diordna.miru.custom.DaySelectView
         android:id="@+id/dateTextView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="10"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dateTextView2"
+        app:layout_constraintStart_toEndOf="@+id/dateTextView0"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.diordna.miru.custom.DaySelectView
         android:id="@+id/dateTextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="10"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dateTextView3"
+        app:layout_constraintStart_toEndOf="@+id/dateTextView1"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.diordna.miru.custom.DaySelectView
         android:id="@+id/dateTextView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="10"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dateTextView4"
+        app:layout_constraintStart_toEndOf="@+id/dateTextView2"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.diordna.miru.custom.DaySelectView
         android:id="@+id/dateTextView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="10"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dateTextView5"
+        app:layout_constraintStart_toEndOf="@+id/dateTextView3"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.diordna.miru.custom.DaySelectView
         android:id="@+id/dateTextView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="10"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/dateTextView6"
+        app:layout_constraintStart_toEndOf="@+id/dateTextView4"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
+    <com.diordna.miru.custom.DaySelectView
         android:id="@+id/dateTextView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
         android:paddingTop="8dp"
         android:paddingBottom="8dp"
-        android:text="10"
-        android:textColor="@color/calender_text_sat"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/dateTextView5"
         app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
