@@ -40,7 +40,6 @@ class HomeFragment : Fragment() {
     private fun initCalenderView() {
         val calenderDayClickListener = object : CalenderDateFragment.OnClickDayItem {
             override fun onClick(date: DateTime) {
-                Toast.makeText(activity, "${date.toString("yyyy-MM-dd")}", Toast.LENGTH_SHORT).show()
                 binding?.dayTextLayout?.monthTextView?.text = CalendarCalculator.getMonthText(date)
                 homeViewModel.loadTodoList(date)
             }

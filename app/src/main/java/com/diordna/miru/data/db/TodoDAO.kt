@@ -9,7 +9,7 @@ interface TodoDAO {
     fun selectAll(): List<TodoEntity>
 
     @Query("SELECT * FROM todo " +
-            "WHERE viewingDate >= :viewingDate")
+            "WHERE viewingDate = :viewingDate")
     fun selectForDate(viewingDate: String): List<TodoEntity>
 
     @Query("SELECT * FROM todo " +

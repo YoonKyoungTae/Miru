@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import com.diordna.miru.CalendarCalculator
-import com.diordna.miru.data.Const
+import com.diordna.miru.custom.DaySelectView
 import com.diordna.miru.databinding.FragmentCalenerDateBinding
 import org.joda.time.DateTime
 
 class CalenderDateFragment : Fragment() {
 
     private var binding: FragmentCalenerDateBinding? = null
+    private val daySelectViews: ArrayList<DaySelectView> = arrayListOf()
     var onClickDayItem: OnClickDayItem? = null
 
     companion object {
@@ -39,25 +40,34 @@ class CalenderDateFragment : Fragment() {
 
     private fun setDate() {
         val plusWeeks = arguments?.getInt(ARG_FRAGMENT_POSITION, 0) ?: 0
-        val dateTextViewArr = listOf(
-            binding?.dateTextView0,
-            binding?.dateTextView1,
-            binding?.dateTextView2,
-            binding?.dateTextView3,
-            binding?.dateTextView4,
-            binding?.dateTextView5,
-            binding?.dateTextView6,
-        )
+        binding?.run {
+            daySelectViews.add(dateTextView0)
+            daySelectViews.add(dateTextView1)
+            daySelectViews.add(dateTextView2)
+            daySelectViews.add(dateTextView3)
+            daySelectViews.add(dateTextView4)
+            daySelectViews.add(dateTextView5)
+            daySelectViews.add(dateTextView6)
+        }
 
         binding?.run {
-            dateTextViewArr.forEachIndexed { index, dayTextView ->
-                dayTextView?.setDate(CalendarCalculator.getDateTime(plusWeeks, index))
-                dayTextView?.setText(CalendarCalculator.getDayText(plusWeeks, index))
-                dayTextView?.setOnClickListener {
-                    onClickDayItem?.onClick(CalendarCalculator.getDateTime(plusWeeks, index))
+            daySelectViews.forEachIndexed { index, daySelectView ->
+                val setDate = CalendarCalculator.getDateTime(plusWeeks, index)
+                daySelectView.setDate(setDate)
+                daySelectView.setText(CalendarCalculator.getDayText(plusWeeks, index))
+                daySelectView.setOnClickListener { selectView ->
+                    onClickDayItem?.onClick(setDate)
+                    refreshSelectDateView(selectView)
                 }
             }
         }
+    }
+
+    private fun refreshSelectDateView(selectedView: View) {
+        daySelectViews.forEach { it.isSelected(false) }
+        daySelectViews.find {
+            selectedView.id == it.id
+        }?.isSelected(true)
     }
 
     interface OnClickDayItem {

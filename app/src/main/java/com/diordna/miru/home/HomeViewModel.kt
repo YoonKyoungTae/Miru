@@ -22,7 +22,7 @@ class HomeViewModel : ViewModel() {
     fun loadTodoList(dateTime: DateTime = DateTime.now()) {
         viewModelScope.launch(Dispatchers.IO) {
             todoRepository?.let {
-                val todoDataList = it.todoDatabase.todoDao().selectForDate(dateTime.toString("YYYYmmdd"))
+                val todoDataList = it.todoDatabase.todoDao().selectForDate(dateTime.toString("yyyyMMdd"))
 
                 withContext(Dispatchers.Main) {
                     _todoList.value = todoDataList.map { todoEntity ->
@@ -39,7 +39,7 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             todoRepository?.let {
                 val newTodoItem = TodoEntity(
-                    viewingDate = DateTime.now().toString("YYYYmmdd"),
+                    viewingDate = DateTime.now().toString("yyyyMMdd"),
                     createAtMillis = DateTime.now().millis,
                     updateAtMillis = DateTime.now().millis
                 )
