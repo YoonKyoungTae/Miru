@@ -47,7 +47,7 @@ class TodoListAdapter : ListAdapter<TodoUiData, TodoListAdapter.ViewHolder>(diff
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun binding(todo: TodoUiData) {
-            binding.todoTitle.text = "Sample : ${todo.createAtMillis}"
+            binding.todoTitle.text = todo.title
             binding.todoCreateAt.text = DateTime(todo.createAtMillis).toString("yyyy-MM-dd")
             handleCheckBoxAction(todo.isDone)
 

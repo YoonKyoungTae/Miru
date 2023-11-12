@@ -54,6 +54,11 @@ class HomeFragment : Fragment() {
                 binding?.dayTextLayout?.monthTextView?.text = CalendarCalculator.getMonthText(position)
             }
         })
+
+        // move to today
+        binding?.calenderPagerView?.setCurrentItem(CalendarCalculator.getTodayWeeks(), false)
+        calenderAdapter.moveToToday()
+        CalendarCalculator.selectDayLiveData?.value = 4
     }
 
     private fun initTodoView() {
@@ -62,7 +67,11 @@ class HomeFragment : Fragment() {
 
         // Add
         binding?.addTodoButton?.setOnClickListener {
-            homeViewModel.addTodo(currentSelectDate)
+            homeViewModel.addTodo(
+                binding?.addEditText?.text.toString(),
+                currentSelectDate)
+
+            binding?.addEditText?.text = null
         }
 
         // Delete
