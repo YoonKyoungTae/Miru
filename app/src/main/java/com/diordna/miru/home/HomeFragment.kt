@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +22,7 @@ class HomeFragment : Fragment() {
     private var binding: FragmentHomeBinding? = null
     private val todoAdapter = TodoListAdapter()
     private val homeViewModel: HomeViewModel by viewModels()
+    private var currentSelectDate: DateTime = DateTime.now()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentHomeBinding.inflate(inflater, container, false)
@@ -40,6 +40,7 @@ class HomeFragment : Fragment() {
     private fun initCalenderView() {
         val calenderDayClickListener = object : CalenderDateFragment.OnClickDayItem {
             override fun onClick(date: DateTime) {
+                currentSelectDate = date
                 binding?.dayTextLayout?.monthTextView?.text = CalendarCalculator.getMonthText(date)
                 homeViewModel.loadTodoList(date)
             }
@@ -61,7 +62,7 @@ class HomeFragment : Fragment() {
 
         // Add
         binding?.addTodoButton?.setOnClickListener {
-            homeViewModel.addNewTodo()
+            homeViewModel.addTodo(currentSelectDate)
         }
 
         // Delete

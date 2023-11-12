@@ -35,13 +35,13 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    fun addNewTodo() {
+    fun addTodo(dateTime: DateTime) {
         viewModelScope.launch(Dispatchers.IO) {
             todoRepository?.let {
                 val newTodoItem = TodoEntity(
-                    viewingDate = DateTime.now().toString("yyyyMMdd"),
-                    createAtMillis = DateTime.now().millis,
-                    updateAtMillis = DateTime.now().millis
+                    viewingDate = dateTime.toString("yyyyMMdd"),
+                    createAtMillis = dateTime.millis,
+                    updateAtMillis = dateTime.millis
                 )
                 val newTodoItemId = it.todoDatabase.todoDao().insert(newTodoItem)
                 newTodoItem.id = newTodoItemId
