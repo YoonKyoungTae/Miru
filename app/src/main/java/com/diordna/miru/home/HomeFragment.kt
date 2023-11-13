@@ -6,10 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.room.Room
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.diordna.miru.CalendarCalculator
+import com.diordna.miru.custom.ItemTouchHelperImpl
 import com.diordna.miru.data.TodoRepositoryImpl
 import com.diordna.miru.data.db.TodoDatabase
 import com.diordna.miru.databinding.FragmentHomeBinding
@@ -62,6 +64,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun initTodoView() {
+        val itemTouchHelper = ItemTouchHelper(ItemTouchHelperImpl(object : ItemTouchHelperImpl.OnItemTouchListener {
+            override fun onDragItem(fromPosition: Int, toPosition: Int): Boolean {
+                TODO("Not yet implemented")
+            }
+
+            override fun onSwipeItem(position: Int) {
+                val todoItem = todoAdapter.getItemFromPosition(position)
+                homeViewModel.miruTodo(todoItem.id)
+            }
+        }))
+        itemTouchHelper.attachToRecyclerView(binding?.todoListView)
+
         binding?.todoListView?.adapter = todoAdapter
         binding?.todoListView?.layoutManager = LinearLayoutManager(activity)
 

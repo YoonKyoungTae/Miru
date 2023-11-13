@@ -40,6 +40,10 @@ class TodoListAdapter : ListAdapter<TodoUiData, TodoListAdapter.ViewHolder>(diff
         holder.binding(getItem(position))
     }
 
+    fun getItemFromPosition(position: Int): TodoUiData {
+        return getItem(position)
+    }
+
     class ViewHolder(
         private val binding: ItemTodoBinding,
         private val onClickDeleteAction: ((id: Long) -> Unit)?,

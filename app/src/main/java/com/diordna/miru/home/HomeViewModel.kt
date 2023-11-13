@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.diordna.miru.CalendarCalculator
 import com.diordna.miru.data.TodoRepository
 import com.diordna.miru.data.TodoUiData
 import com.diordna.miru.data.db.TodoEntity
@@ -59,12 +60,31 @@ class HomeViewModel : ViewModel() {
         }
     }
 
+    fun miruTodo(id: Long) {
+        todoRepoIOScope {
+            val todoEntity = it.todoDatabase.todoDao().selectForId(id)
+            todoEntity.viewingDate = CalendarCalculator.plusViewingDate(todoEntity.viewingDate)
+            todoEntity.updateAtMillis = DateTime.now().millis
+            it.todoDatabase.todoDao().update(todoEntity)
+
+            val originList = _todoList.value?.toMutableList()
+            originList?.find { allList ->
+                allList.id == id
+            }?.run {
+                originList.remove(this)
+                withContext(Dispatchers.Main) {
+                    _todoList.value = originList!!
+                }
+            }
+        }
+    }
+
     fun editTodo(id: Long, isChecked: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             todoRepository?.let {
                 val todoEntity = it.todoDatabase.todoDao().selectForId(id)
                 todoEntity.isDone = isChecked
-                todoEntity.updateAtMillis = DateTime().millis
+                todoEntity.updateAtMillis = DateTime.now().millis
                 it.todoDatabase.todoDao().update(todoEntity)
 
                 val originList = _todoList.value?.toMutableList()
@@ -101,6 +121,14 @@ class HomeViewModel : ViewModel() {
                         _todoList.value = originList!!
                     }
                 }
+            }
+        }
+    }
+
+    private fun ViewModel.todoRepoIOScope(block: suspend (TodoRepository) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            todoRepository?.let {
+                block.invoke(it)
             }
         }
     }
