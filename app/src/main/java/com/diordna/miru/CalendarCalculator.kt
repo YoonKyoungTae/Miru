@@ -40,17 +40,4 @@ object CalendarCalculator {
         return betweenDays / 7
     }
 
-    fun plusViewingDate(viewingDate: String?): String {
-        viewingDate?.let {date ->
-            return DateTime()
-                .withYear(date.substring(0, 4).toInt())
-                .withMonthOfYear(date.substring(4, 6).toInt())
-                .withDayOfMonth(date.substring(6, 8).toInt())
-                .plusDays(1)
-                .toString("yyyyMMdd")
-        }
-
-        return ""
-    }
-
 }

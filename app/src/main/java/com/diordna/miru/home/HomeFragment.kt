@@ -8,17 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
 import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.diordna.miru.CalendarCalculator
 import com.diordna.miru.custom.ItemTouchHelperImpl
-import com.diordna.miru.data.TodoRepositoryImpl
-import com.diordna.miru.data.db.TodoDatabase
 import com.diordna.miru.databinding.FragmentHomeBinding
 import com.diordna.miru.home.calender.CalenderDateFragment
 import com.diordna.miru.home.calender.CalenderPagerAdapter
+import dagger.hilt.android.AndroidEntryPoint
 import org.joda.time.DateTime
 
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private var binding: FragmentHomeBinding? = null
@@ -100,16 +99,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun initViewModel() {
-        activity?.let { acti ->
-            val dataBase = Room.databaseBuilder(
-                acti.applicationContext,
-                TodoDatabase::class.java,
-                "todo-database"
-            ).build()
-
-            homeViewModel.todoRepository = TodoRepositoryImpl(dataBase)
-        }
-
         homeViewModel.todoList.observe(this) { list ->
             todoAdapter.submitList(list)
         }
