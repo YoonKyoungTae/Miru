@@ -4,10 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.diordna.miru.data.TodoRepositoryImpl
+import com.diordna.miru.data.TodoRepository
 import com.diordna.miru.data.TodoUiData
-import com.diordna.miru.data.db.TodoEntity
-import com.diordna.miru.data.db.toUiData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -17,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val todoRepository: TodoRepositoryImpl
+    private val todoRepository: TodoRepository
 ) : ViewModel() {
 
     private val _todoList = MutableLiveData<List<TodoUiData>>()
@@ -25,31 +23,19 @@ class HomeViewModel @Inject constructor(
 
     fun loadTodoList(dateTime: DateTime = DateTime.now()) {
         viewModelScope.launch(Dispatchers.IO) {
-            val todoDataList = todoRepository.todoDatabase.todoDao().selectForDate(dateTime.toString("yyyyMMdd"))
-
+            val updatedList = todoRepository.getTodoForDate(dateTime)
             withContext(Dispatchers.Main) {
-                _todoList.value = todoDataList.map { todoEntity ->
-                    todoEntity.toUiData()
-                }.sortedBy { todoUiData ->
-                    todoUiData.isDone
-                }
+                _todoList.value = updatedList
             }
         }
     }
 
     fun addTodo(title: String, dateTime: DateTime) {
         viewModelScope.launch(Dispatchers.IO) {
-            val newTodoItem = TodoEntity(
-                title = title,
-                viewingDate = dateTime.toString("yyyyMMdd"),
-                createAtMillis = dateTime.millis,
-                updateAtMillis = dateTime.millis
-            )
-            val newTodoItemId = todoRepository.todoDatabase.todoDao().insert(newTodoItem)
-            newTodoItem.id = newTodoItemId
+            val todo = todoRepository.addTodo(title, dateTime)
 
             _todoList.value?.toMutableList()?.run {
-                add(newTodoItem.toUiData())
+                add(todo)
                 withContext(Dispatchers.Main) {
                     _todoList.value = this@run.sortedBy { todoUiData ->
                         todoUiData.isDone
@@ -61,29 +47,23 @@ class HomeViewModel @Inject constructor(
 
     fun miruTodo(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            val todoEntity = todoRepository.todoDatabase.todoDao().selectForId(id)
-                todoEntity.isMiru = true
-                todoEntity.updateAtMillis = DateTime.now().millis
-                todoRepository.todoDatabase.todoDao().update(todoEntity)
+            todoRepository.miruTodo(id)
 
-                val originList = _todoList.value?.toMutableList()
-                originList?.find { allList ->
-                    allList.id == id
-                }?.run {
-                    originList.remove(this)
-                    withContext(Dispatchers.Main) {
-                        _todoList.value = originList!!
-                    }
+            val originList = _todoList.value?.toMutableList()
+            originList?.find { allList ->
+                allList.id == id
+            }?.run {
+                originList.remove(this)
+                withContext(Dispatchers.Main) {
+                    _todoList.value = originList!!
                 }
+            }
         }
     }
 
     fun editTodo(id: Long, isChecked: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
-            val todoEntity = todoRepository.todoDatabase.todoDao().selectForId(id)
-            todoEntity.isDone = isChecked
-            todoEntity.updateAtMillis = DateTime.now().millis
-            todoRepository.todoDatabase.todoDao().update(todoEntity)
+            val todo = todoRepository.checkTodo(id, isChecked)
 
             val originList = _todoList.value?.toMutableList()
             val findItem = originList?.find { allList ->
@@ -92,7 +72,7 @@ class HomeViewModel @Inject constructor(
 
             findItem?.run {
                 val originItemIndex = originList.indexOf(findItem)
-                originList[originItemIndex] = todoEntity.toUiData()
+                originList[originItemIndex] = todo
                 withContext(Dispatchers.Main) {
                     _todoList.value = originList.sortedBy { todoUiData ->
                         todoUiData.isDone
@@ -104,7 +84,7 @@ class HomeViewModel @Inject constructor(
 
     fun removeTodo(id: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            todoRepository.todoDatabase.todoDao().deleteForId(id)
+            todoRepository.removeTodo(id)
 
             val originList = _todoList.value?.toMutableList()
             val findItem = originList?.find { allList ->

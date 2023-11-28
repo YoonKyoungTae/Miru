@@ -1,7 +1,17 @@
 package com.diordna.miru.data
 
-import com.diordna.miru.data.db.TodoDatabase
+import org.joda.time.DateTime
 
 interface TodoRepository {
-    val todoDatabase: TodoDatabase
+
+    fun getTodoForDate(dateTime: DateTime): List<TodoUiData>
+
+    fun addTodo(title: String, dateTime: DateTime): TodoUiData
+
+    fun miruTodo(id: Long)
+
+    fun checkTodo(id: Long, isCheck: Boolean): TodoUiData
+
+    fun removeTodo(id: Long)
+
 }
